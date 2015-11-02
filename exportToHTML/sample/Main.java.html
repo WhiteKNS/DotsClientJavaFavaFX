@@ -1,0 +1,252 @@
+<html>
+<head>
+<title>Main.java</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.ln { color: rgb(0,0,0); font-weight: normal; font-style: normal; }
+.s0 { color: rgb(204,120,50); }
+.s1 { color: rgb(169,183,198); }
+.s2 { color: rgb(104,151,187); }
+.s3 { color: rgb(128,128,128); }
+.s4 { color: rgb(106,135,89); }
+</style>
+</head>
+<BODY BGCOLOR="#2b2b2b">
+<TABLE CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#C0C0C0" >
+<TR><TD><CENTER>
+<FONT FACE="Arial, Helvetica" COLOR="#000000">
+Main.java</FONT>
+</center></TD></TR></TABLE>
+<pre>
+
+<span class="s0">package </span><span class="s1">sample</span><span class="s0">;</span><span class="s1"> 
+ 
+</span><span class="s0">import </span><span class="s1">javafx.application.Application</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">javafx.event.ActionEvent</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">javafx.fxml.FXMLLoader</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">javafx.scene.Parent</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">javafx.scene.Scene</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">javafx.scene.control.Button</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">javafx.scene.control.Label</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">javafx.scene.layout.BorderPane</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">javafx.scene.layout.HBox</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">javafx.scene.text.Font</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">javafx.stage.Stage</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">javafx.event.EventHandler</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">javafx.scene.input.MouseEvent</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">javafx.scene.layout.Pane</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">javafx.scene.paint.Color</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">javafx.scene.shape.Circle</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">javafx.scene.shape.Rectangle</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">java.io.*</span><span class="s0">;</span><span class="s1"> 
+</span><span class="s0">import </span><span class="s1">java.net.Socket</span><span class="s0">;</span><span class="s1"> 
+ 
+ 
+ 
+</span><span class="s0">public class </span><span class="s1">Main </span><span class="s0">extends </span><span class="s1">Application { 
+ 
+ 
+    Rectangle FieldRect[][] = </span><span class="s0">new </span><span class="s1">Rectangle[</span><span class="s2">10</span><span class="s1">][</span><span class="s2">10</span><span class="s1">]</span><span class="s0">;</span><span class="s1"> 
+ 
+    </span><span class="s0">int </span><span class="s1">x</span><span class="s0">, </span><span class="s1">y</span><span class="s0">;</span><span class="s1"> 
+    </span><span class="s0">int </span><span class="s1">X = </span><span class="s2">0</span><span class="s0">, </span><span class="s1">Y = </span><span class="s2">0</span><span class="s0">;</span><span class="s1"> 
+ 
+    </span><span class="s0">int </span><span class="s1">x3</span><span class="s0">, </span><span class="s1">y3</span><span class="s0">;</span><span class="s1"> 
+ 
+    </span><span class="s0">private static int</span><span class="s1">[][] Field</span><span class="s0">;</span><span class="s1"> 
+    </span><span class="s0">private final static int </span><span class="s1">LINE = </span><span class="s2">10</span><span class="s0">;</span><span class="s1"> 
+    </span><span class="s0">private final static int </span><span class="s1">COLUMN = </span><span class="s2">10</span><span class="s0">;</span><span class="s1"> 
+ 
+    </span><span class="s0">private static int </span><span class="s1">Port = </span><span class="s2">6727</span><span class="s0">; </span><span class="s3">//порт</span><span class="s1"> 
+    </span><span class="s0">private static </span><span class="s1">String host = </span><span class="s4">&quot;localhost&quot;</span><span class="s0">;</span><span class="s1"> 
+   </span><span class="s0">private static </span><span class="s1">Socket clientSocket</span><span class="s0">;</span><span class="s1"> 
+   </span><span class="s0">private static </span><span class="s1">DataInputStream in</span><span class="s0">; </span><span class="s3">//для получения данных с сервера</span><span class="s1"> 
+ 
+    </span><span class="s3">// Group root = new Group();</span><span class="s1"> 
+    Pane layout = </span><span class="s0">new </span><span class="s1">Pane()</span><span class="s0">; </span><span class="s3">//</span><span class="s1"> 
+    BorderPane pane = </span><span class="s0">new </span><span class="s1">BorderPane()</span><span class="s0">;</span><span class="s1"> 
+    </span><span class="s0">static int  </span><span class="s1">Number</span><span class="s0">; </span><span class="s3">//чтобы клиент зал, какой игрок играет - player1 или player2</span><span class="s1"> 
+ 
+    </span><span class="s0">static </span><span class="s1">{ 
+        Field = </span><span class="s0">new int</span><span class="s1">[LINE][COLUMN]</span><span class="s0">;</span><span class="s1"> 
+        </span><span class="s0">for </span><span class="s1">(</span><span class="s0">int </span><span class="s1">i = </span><span class="s2">0</span><span class="s0">; </span><span class="s1">i &lt; LINE</span><span class="s0">; </span><span class="s1">i++</span><span class="s0">, </span><span class="s1">System.out.println()) { 
+            </span><span class="s0">for </span><span class="s1">(</span><span class="s0">int </span><span class="s1">j = </span><span class="s2">0</span><span class="s0">; </span><span class="s1">j &lt; COLUMN</span><span class="s0">; </span><span class="s1">j++) { 
+                Field[i][j] = </span><span class="s2">0</span><span class="s0">;</span><span class="s1"> 
+            } 
+        } 
+        </span><span class="s0">try </span><span class="s1">{ 
+        clientSocket = </span><span class="s0">new </span><span class="s1">Socket(host</span><span class="s0">, </span><span class="s1">Port)</span><span class="s0">;</span><span class="s3">//}</span><span class="s1"> 
+ 
+            in = </span><span class="s0">new </span><span class="s1">DataInputStream(clientSocket.getInputStream())</span><span class="s0">; </span><span class="s3">// Конвертируем потоки в другой тип, чтоб легче обрабатывать текстовые сообщения.</span><span class="s1"> 
+            Number = in.readInt()</span><span class="s0">; </span><span class="s3">//получаем номер игрока от сервера. сделать это нужно ДО запуска метода start, поэтому помещаем в static блок</span><span class="s1"> 
+        }</span><span class="s0">catch</span><span class="s1">(IOException e){} 
+    } 
+ 
+ 
+ 
+    </span><span class="s0">private static void </span><span class="s1">getFromServer(DataInputStream in) </span><span class="s0">throws </span><span class="s1">IOException{ </span><span class="s3">//получаем данные с сервера</span><span class="s1"> 
+        </span><span class="s0">int </span><span class="s1">PointsPlayer1 = in.readInt()</span><span class="s0">;</span><span class="s1"> 
+        System.out.println(</span><span class="s4">&quot;Points for first player - &quot; </span><span class="s1">+ PointsPlayer1)</span><span class="s0">;</span><span class="s1"> 
+ 
+        </span><span class="s0">int </span><span class="s1">PointsPlayer2 = in.readInt()</span><span class="s0">;</span><span class="s1"> 
+        System.out.println(</span><span class="s4">&quot;Points for second player - &quot; </span><span class="s1">+ PointsPlayer2)</span><span class="s0">;</span><span class="s1"> 
+ 
+ 
+        </span><span class="s0">for </span><span class="s1">(</span><span class="s0">int </span><span class="s1">i = </span><span class="s2">0</span><span class="s0">; </span><span class="s1">i &lt; Main.LINE</span><span class="s0">; </span><span class="s1">i++) { </span><span class="s3">//получаем поле</span><span class="s1"> 
+            </span><span class="s0">for </span><span class="s1">(</span><span class="s0">int </span><span class="s1">j = </span><span class="s2">0</span><span class="s0">; </span><span class="s1">j &lt; Main.COLUMN</span><span class="s0">; </span><span class="s1">j++) { 
+                Main.Field[i][j] = in.readInt()</span><span class="s0">;</span><span class="s1"> 
+ 
+            } 
+        } 
+        </span><span class="s0">for </span><span class="s1">(</span><span class="s0">int </span><span class="s1">i = </span><span class="s2">0</span><span class="s0">; </span><span class="s1">i &lt; Main.LINE</span><span class="s0">; </span><span class="s1">i++</span><span class="s0">, </span><span class="s1">System.out.println()) { </span><span class="s3">//получаем поле</span><span class="s1"> 
+            </span><span class="s0">for </span><span class="s1">(</span><span class="s0">int </span><span class="s1">j = </span><span class="s2">0</span><span class="s0">; </span><span class="s1">j &lt; Main.COLUMN</span><span class="s0">; </span><span class="s1">j++) { 
+                System.out.print(Main.Field[i][j])</span><span class="s0">;</span><span class="s1"> 
+ 
+            } 
+        } 
+ 
+    } 
+ 
+    @Override 
+    </span><span class="s0">public void </span><span class="s1">start(Stage primaryStage)</span><span class="s0">throws </span><span class="s1">IOException {  </span><span class="s3">//тут прорисовка поля</span><span class="s1"> 
+        primaryStage.setTitle(</span><span class="s4">&quot;Dots game&quot;</span><span class="s1">)</span><span class="s0">; </span><span class="s3">//заголовок</span><span class="s1"> 
+        </span><span class="s3">//Parent root = FXMLLoader.load(getClass().getResource(&quot;sample.fxml&quot;)); //это для Scene Builder! но пользоваться им для этой игры было не удобно. так что здесь ничего</span><span class="s1"> 
+ 
+        </span><span class="s0">for </span><span class="s1">(</span><span class="s0">int </span><span class="s1">i = </span><span class="s2">0</span><span class="s0">; </span><span class="s1">i &lt; </span><span class="s2">10</span><span class="s0">; </span><span class="s1">i++) {   </span><span class="s3">//тут создается поле</span><span class="s1"> 
+ 
+            </span><span class="s0">for </span><span class="s1">(</span><span class="s0">int </span><span class="s1">j = </span><span class="s2">0</span><span class="s0">; </span><span class="s1">j &lt; </span><span class="s2">10</span><span class="s0">; </span><span class="s1">j++) { 
+                PaintGrid(i</span><span class="s0">, </span><span class="s1">j)</span><span class="s0">; </span><span class="s3">//а здесь прорисовывается</span><span class="s1"> 
+                layout.getChildren().add(FieldRect[i][j])</span><span class="s0">; </span><span class="s3">//добавляем на экран</span><span class="s1"> 
+            } 
+            X += </span><span class="s2">1</span><span class="s0">; </span><span class="s3">//это для создания линий между rectangle</span><span class="s1"> 
+            Y = </span><span class="s2">0</span><span class="s0">;</span><span class="s1"> 
+ 
+        } 
+ 
+        Button button = </span><span class="s0">new </span><span class="s1">Button(</span><span class="s4">&quot;GO!&quot;</span><span class="s1">)</span><span class="s0">; </span><span class="s3">//кнопка, при помощи которой игрок подтверждает ход</span><span class="s1"> 
+ 
+        pane.setTop(layout)</span><span class="s0">; </span><span class="s3">//в верхнюю часть экрана помещаем поле</span><span class="s1"> 
+      button.setOnAction(</span><span class="s0">new </span><span class="s1">EventHandler&lt;ActionEvent&gt;(){ 
+                             @Override 
+                             </span><span class="s0">public void </span><span class="s1">handle(ActionEvent event) {           </span><span class="s3">//добавляем слушателя кнопки</span><span class="s1"> 
+                                 System.out.println(</span><span class="s4">&quot;Input line!&quot;</span><span class="s1">)</span><span class="s0">;</span><span class="s1"> 
+                                 </span><span class="s0">try </span><span class="s1">{ 
+                                     DataOutputStream output1 = </span><span class="s0">new </span><span class="s1">DataOutputStream(clientSocket.getOutputStream())</span><span class="s0">;</span><span class="s1"> 
+                                     output1.writeInt(y3)</span><span class="s0">;    </span><span class="s3">//отправляем на сервер</span><span class="s1"> 
+                                     </span><span class="s3">// System.out.println(&quot;Input column!&quot;); //вводим колонку</span><span class="s1"> 
+ 
+                                     output1.writeInt(x3)</span><span class="s0">;</span><span class="s3">//отправляем на сервер</span><span class="s1"> 
+                                     output1.flush()</span><span class="s0">; </span><span class="s3">// заставляем поток закончить передачу данных.</span><span class="s1"> 
+                                     getFromServer(in)</span><span class="s0">;</span><span class="s1"> 
+                                     PaintCircle1()</span><span class="s0">;</span><span class="s1"> 
+                                 } 
+                                 </span><span class="s0">catch</span><span class="s1">(IOException e){ 
+                                     System.out.println(</span><span class="s4">&quot;IOException in sending data to server!&quot;</span><span class="s1">)</span><span class="s0">;</span><span class="s1"> 
+                                 } 
+ 
+                             } 
+                         } 
+        )</span><span class="s0">;</span><span class="s1"> 
+ 
+ 
+        HBox box = </span><span class="s0">new </span><span class="s1">HBox()</span><span class="s0">; </span><span class="s3">//layout для расположений внижу экрана</span><span class="s1"> 
+        box.setSpacing(</span><span class="s2">120</span><span class="s1">)</span><span class="s0">; </span><span class="s3">//устранавливаем промежуток между элементами</span><span class="s1"> 
+        box.getChildren().add(button)</span><span class="s0">; </span><span class="s3">// добавляем кнопку Go, она нужна двоим игрокам</span><span class="s1"> 
+ 
+        </span><span class="s0">if </span><span class="s1">(Number==</span><span class="s2">2</span><span class="s1">) { </span><span class="s3">//если играет игрок 2, то создаем дополнительную кнопку - Get field! В начале игры после 1го ода игрока надо нажать ее, чтобы получать ходы игрока1</span><span class="s1"> 
+    Button button1 = </span><span class="s0">new </span><span class="s1">Button(</span><span class="s4">&quot;Get Field!&quot;</span><span class="s1">)</span><span class="s0">;</span><span class="s1"> 
+    button1.setOnAction(</span><span class="s0">new </span><span class="s1">EventHandler&lt;ActionEvent&gt;() { 
+        @Override 
+        </span><span class="s0">public void </span><span class="s1">handle(ActionEvent event) { 
+            </span><span class="s0">try </span><span class="s1">{ 
+                getFromServer(in)</span><span class="s0">;</span><span class="s1"> 
+                PaintCircle1()</span><span class="s0">;</span><span class="s1"> 
+            } </span><span class="s0">catch </span><span class="s1">(IOException e) { 
+            } 
+        } 
+    })</span><span class="s0">;</span><span class="s1"> 
+    box.getChildren().add(button1)</span><span class="s0">;</span><span class="s1"> 
+} 
+ 
+ 
+ 
+        Label label = </span><span class="s0">new </span><span class="s1">Label(</span><span class="s4">&quot;Dots Game&quot;</span><span class="s1">)</span><span class="s0">; </span><span class="s3">//сщздаем label</span><span class="s1"> 
+        label.setFont(</span><span class="s0">new </span><span class="s1">Font(</span><span class="s4">&quot;Algerian&quot;</span><span class="s0">, </span><span class="s2">18</span><span class="s1">))</span><span class="s0">; </span><span class="s3">//устанавливаем шрифт</span><span class="s1"> 
+ 
+        box.getChildren().add(label)</span><span class="s0">; </span><span class="s3">// добавляем label на экран</span><span class="s1"> 
+        pane.setBottom(box)</span><span class="s0">; </span><span class="s3">//+ в нижнюю часть экрана</span><span class="s1"> 
+        Scene scene = </span><span class="s0">new </span><span class="s1">Scene(pane</span><span class="s0">, </span><span class="s2">500</span><span class="s0">, </span><span class="s2">500</span><span class="s0">, </span><span class="s1">Color.YELLOW)</span><span class="s0">; </span><span class="s3">//устанавливаем параметры scene</span><span class="s1"> 
+        primaryStage.setScene(scene)</span><span class="s0">; </span><span class="s3">//устанавливаем эту сцену как текущую</span><span class="s1"> 
+ 
+        primaryStage.show()</span><span class="s0">; </span><span class="s3">//показываем окно</span><span class="s1"> 
+ 
+    } 
+ 
+    </span><span class="s0">private void </span><span class="s1">PaintGrid(</span><span class="s0">final int </span><span class="s1">i</span><span class="s0">, final int </span><span class="s1">j)</span><span class="s3">//,final Socket s)throws IOException {</span><span class="s1"> 
+    { x = X + i * </span><span class="s2">40</span><span class="s0">;</span><span class="s1"> 
+        y = Y + j * </span><span class="s2">40</span><span class="s0">;</span><span class="s1"> 
+        Rectangle r = </span><span class="s0">new </span><span class="s1">Rectangle(x</span><span class="s0">, </span><span class="s1">y</span><span class="s0">, </span><span class="s2">40</span><span class="s0">, </span><span class="s2">40</span><span class="s1">)</span><span class="s0">;   </span><span class="s3">//создаем rectangle</span><span class="s1"> 
+        r.setOnMouseClicked(</span><span class="s0">new </span><span class="s1">EventHandler&lt;MouseEvent&gt;() { </span><span class="s3">//добавляем слушателя прямоугольников, слушатели для мышки</span><span class="s1"> 
+                                @Override 
+                                </span><span class="s0">public void </span><span class="s1">handle(MouseEvent event) { 
+                                    x3 = (</span><span class="s0">int</span><span class="s1">) event.getX() / </span><span class="s2">41</span><span class="s0">; </span><span class="s3">//здесь получаем координаты от мышки и определяем ,в каком квадраде на поле произошло событие</span><span class="s1"> 
+                                    y3 = (</span><span class="s0">int</span><span class="s1">) event.getY() / </span><span class="s2">41</span><span class="s0">;</span><span class="s1"> 
+                                    System.out.println(</span><span class="s4">&quot;Event in  X &quot; </span><span class="s1">+ y3 + </span><span class="s4">&quot; and  Y &quot; </span><span class="s1">+ x3)</span><span class="s0">;</span><span class="s1"> 
+                                   Field[y3][x3] = Number</span><span class="s0">; </span><span class="s3">//это для того, чтобы 1й игрок ходим синими точками, а 2й - красными</span><span class="s1"> 
+ 
+                                    PaintCircle1()</span><span class="s0">; </span><span class="s3">//прорисовка точек</span><span class="s1"> 
+ 
+ 
+                                } 
+                            } 
+        )</span><span class="s0">;</span><span class="s1"> 
+ 
+        r.setFill(Color.WHITE)</span><span class="s0">;</span><span class="s1"> 
+        FieldRect[i][j] = r</span><span class="s0">;</span><span class="s1"> 
+        Y += </span><span class="s2">1</span><span class="s0">;</span><span class="s1"> 
+ 
+    } 
+ 
+ 
+ 
+    </span><span class="s0">private void </span><span class="s1">PaintCircle1() { </span><span class="s3">//здесь прорисовка точек</span><span class="s1"> 
+        </span><span class="s0">int </span><span class="s1">X1 =</span><span class="s2">20</span><span class="s0">; int </span><span class="s1">Y1=</span><span class="s2">20</span><span class="s0">;</span><span class="s1"> 
+        </span><span class="s0">for </span><span class="s1">(</span><span class="s0">int </span><span class="s1">i = </span><span class="s2">0</span><span class="s0">; </span><span class="s1">i &lt; Main.LINE</span><span class="s0">; </span><span class="s1">i++){ 
+            </span><span class="s0">for </span><span class="s1">(</span><span class="s0">int </span><span class="s1">j = </span><span class="s2">0</span><span class="s0">; </span><span class="s1">j &lt; Main.COLUMN</span><span class="s0">; </span><span class="s1">j++) { 
+                </span><span class="s0">int </span><span class="s1">x1 = X1 + i * </span><span class="s2">40</span><span class="s0">;</span><span class="s1"> 
+                </span><span class="s0">int </span><span class="s1">y1 = Y1 + j * </span><span class="s2">40</span><span class="s0">;</span><span class="s1"> 
+ 
+                </span><span class="s0">if </span><span class="s1">(Field[j][i] == </span><span class="s2">1</span><span class="s1">) { 
+                    Circle c1 = </span><span class="s0">new </span><span class="s1">Circle(x1</span><span class="s0">, </span><span class="s1">y1</span><span class="s0">, </span><span class="s2">20</span><span class="s0">, </span><span class="s1">Color.BLUE)</span><span class="s0">; </span><span class="s3">//+ на экран</span><span class="s1"> 
+                    </span><span class="s3">//   Y1 += 1;</span><span class="s1"> 
+                    layout.getChildren().add(c1)</span><span class="s0">;</span><span class="s1"> 
+                } 
+                </span><span class="s0">if </span><span class="s1">(Field[j][i] == </span><span class="s2">2</span><span class="s1">) { 
+                    Circle c2 = </span><span class="s0">new </span><span class="s1">Circle(x1</span><span class="s0">, </span><span class="s1">y1</span><span class="s0">, </span><span class="s2">20</span><span class="s0">, </span><span class="s1">Color.RED)</span><span class="s0">; </span><span class="s3">//+ на экран</span><span class="s1"> 
+                    </span><span class="s3">//  Y1 += 1;</span><span class="s1"> 
+                    layout.getChildren().add(c2)</span><span class="s0">;</span><span class="s1"> 
+                } 
+                </span><span class="s0">if </span><span class="s1">(Field[j][i] == </span><span class="s2">6</span><span class="s1">) { 
+                    Circle c3 = </span><span class="s0">new </span><span class="s1">Circle(x1</span><span class="s0">, </span><span class="s1">y1</span><span class="s0">, </span><span class="s2">20</span><span class="s0">, </span><span class="s1">Color.BLACK)</span><span class="s0">; </span><span class="s3">//+ на экран</span><span class="s1"> 
+ 
+                    layout.getChildren().add(c3)</span><span class="s0">;</span><span class="s1"> 
+                } 
+ 
+ 
+                Y1 += </span><span class="s2">1</span><span class="s0">;</span><span class="s1"> 
+            } 
+            X1 += </span><span class="s2">1</span><span class="s0">;</span><span class="s1"> 
+            Y1 = </span><span class="s2">20</span><span class="s0">;</span><span class="s1"> 
+        } 
+ 
+ 
+    } 
+ 
+ 
+    </span><span class="s0">public static void </span><span class="s1">main(String[] args)</span><span class="s0">throws </span><span class="s1">IOException { 
+       launch(args)</span><span class="s0">;</span><span class="s1"> 
+       </span><span class="s3">// System.out.println(&quot;Input IP and the port!&quot;);</span><span class="s1"> 
+    } 
+}</span></pre>
+</body>
+</html>
